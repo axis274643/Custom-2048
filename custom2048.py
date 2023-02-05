@@ -1,9 +1,6 @@
 from tkinter import *
 from colour import *
-from array import *
-import math
 import random
-import time
 import functools
 
 #Square class
@@ -28,6 +25,7 @@ activatedSquaresList = []
 initRed = 0
 initGreen = 0
 initBlue = 0
+moving = False
 
 #define box commands
 def color(widget1,widget2,value):
@@ -121,60 +119,65 @@ def newSquare():
     s.update()
 
 def keyPressed(event,key):
-    global change
-    change = False
-    print("start moveSquare")
-    for r in squaresList:
-        for s in r:
-            s["combinedAlready"]=False
+    global moving
+    if moving == False:
+        moving = True
+        global change
+        change = False
+        print("start moveSquare")
+        for r in squaresList:
+            for s in r:
+                s["combinedAlready"] = False
 
-    if key == "Left":
-        horShift = -1
-        verShift = 0
-        col = 1
-        while col < 10:
-            row = 0
-            while row < 10:
-                moveSquare(row,col,horShift,verShift)
-
-                row = row + 1
-            col = col + 1
-    elif key == "Right":
-        horShift = 1
-        verShift = 0
-        col = 8
-        while col > -1:
-            row = 0
-            while row < 10:
-                moveSquare(row, col, horShift, verShift)
-
-                row = row + 1
-            col = col - 1
-    elif key == "Up":
-        horShift = 0
-        verShift = -1
-        row = 1
-        while row < 10:
-            col = 0
+        if key == "Left":
+            horShift = -1
+            verShift = 0
+            col = 1
             while col < 10:
-                moveSquare(row, col, horShift, verShift)
+                row = 0
+                while row < 10:
+                    moveSquare(row, col, horShift, verShift)
 
+                    row = row + 1
                 col = col + 1
-            row = row + 1
-    elif key == "Down":
-        horShift = 0
-        verShift = 1
-        row = 8
-        while row > -1:
-            col = 0
-            while col < 10:
-                moveSquare(row, col, horShift, verShift)
+        elif key == "Right":
+            horShift = 1
+            verShift = 0
+            col = 8
+            while col > -1:
+                row = 0
+                while row < 10:
+                    moveSquare(row, col, horShift, verShift)
 
-                col = col + 1
-            row = row - 1
-    if change:
-        newSquare()
-    print("end moveSquare")
+                    row = row + 1
+                col = col - 1
+        elif key == "Up":
+            horShift = 0
+            verShift = -1
+            row = 1
+            while row < 10:
+                col = 0
+                while col < 10:
+                    moveSquare(row, col, horShift, verShift)
+
+                    col = col + 1
+                row = row + 1
+        elif key == "Down":
+            horShift = 0
+            verShift = 1
+            row = 8
+            while row > -1:
+                col = 0
+                while col < 10:
+                    moveSquare(row, col, horShift, verShift)
+
+                    col = col + 1
+                row = row - 1
+        if change:
+            newSquare()
+        print("end moveSquare")
+        moving = False
+
 
 def moveSquare(row,col,x,y):
     global change
